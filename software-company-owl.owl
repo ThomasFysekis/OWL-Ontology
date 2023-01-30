@@ -1,0 +1,1253 @@
+@prefix : <http://example.org/Software_Company#> .
+@prefix p1: <http://example.org/file1#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@base <http://example.org/Software_Company> .
+
+<http://example.org/Software_Company> rdf:type owl:Ontology ;
+                                       spin:imports <http://topbraid.org/spin/rdfsplus> ;
+                                       owl:versionInfo "Created with TopBraid Composer" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://spinrdf.org/spin#imports
+spin:imports rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/Software_Company#CEOMeeting
+:CEOMeeting rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            rdf:type owl:SymmetricProperty ;
+            rdfs:domain :CEO ;
+            rdfs:range :CEO ;
+            rdfs:comment "This property indicates the communication between the 2 CEO of the company."@en .
+
+
+###  http://example.org/Software_Company#communicatesWith
+:communicatesWith rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdf:type owl:SymmetricProperty .
+
+
+###  http://example.org/Software_Company#communicatesWithClients
+:communicatesWithClients rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf :communicatesWith ;
+                         rdfs:domain :RequirementAnalyst ;
+                         rdfs:range :Clients .
+
+
+###  http://example.org/Software_Company#communicatesWithDevelopers
+:communicatesWithDevelopers rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf :communicatesWith ;
+                            rdfs:domain :RequirementAnalyst ;
+                            rdfs:range :Developer .
+
+
+###  http://example.org/Software_Company#communicatesWithGraphicDesigner
+:communicatesWithGraphicDesigner rdf:type owl:ObjectProperty ;
+                                 rdfs:subPropertyOf :communicatesWith ;
+                                 rdfs:domain :RequirementAnalyst ;
+                                 rdfs:range :GraphicDesigner .
+
+
+###  http://example.org/Software_Company#cooperateWith
+:cooperateWith rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdf:type owl:SymmetricProperty ;
+               rdfs:domain :Developer ;
+               rdfs:range :Developer ;
+               rdfs:comment "This property shows the developers who work together for a project."@en .
+
+
+###  http://example.org/Software_Company#developerHasKnowledgeIn
+:developerHasKnowledgeIn rdf:type owl:ObjectProperty ;
+                         rdfs:domain :Developer ;
+                         rdfs:range :Technologies .
+
+
+###  http://example.org/Software_Company#developerHasKnowledgeIn_FW
+:developerHasKnowledgeIn_FW rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf :developerHasKnowledgeIn ;
+                            rdfs:domain :Developer ;
+                            rdfs:range :Framework ;
+                            rdfs:comment "this property indicates which frameworks are known by the developer" .
+
+
+###  http://example.org/Software_Company#developerHasKnowledgeIn_PL
+:developerHasKnowledgeIn_PL rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf :developerHasKnowledgeIn ;
+                            rdfs:domain :Developer ;
+                            rdfs:range :Programming_Language ;
+                            rdfs:comment "this property indicates which programming languages are known by the developer" .
+
+
+###  http://example.org/Software_Company#gettingPaidFrom
+:gettingPaidFrom rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 rdf:type owl:TransitiveProperty ;
+                 rdfs:domain :SoftwareCompany ;
+                 rdfs:range :SoftwareCompany ;
+                 rdfs:comment "This property idicates from where the employees are getting paid."^^xsd:string .
+
+
+###  http://example.org/Software_Company#hired
+:hired rdf:type owl:ObjectProperty ;
+       owl:inverseOf :hiredFrom ;
+       rdfs:domain :CEO ;
+       rdfs:range :Employee ;
+       rdfs:comment "This property indicates which CEO hired an employee in the company."@en .
+
+
+###  http://example.org/Software_Company#hiredFrom
+:hiredFrom rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty ;
+           rdfs:domain :Employee ;
+           rdfs:range :CEO ;
+           rdfs:comment "This property indicates the employee who got hired from CEO."@en .
+
+
+###  http://example.org/Software_Company#projectStatus
+:projectStatus rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdf:type owl:TransitiveProperty ;
+               rdfs:domain :ProjectManager ;
+               rdfs:range :ProjectManager ;
+               rdfs:comment "This property indicates the discussion between the project managers about the status of the project."@en .
+
+
+###  http://example.org/Software_Company#promotesOnline
+:promotesOnline rdf:type owl:ObjectProperty ;
+                rdfs:domain :SocialMediaManager ;
+                rdfs:range :Projects ;
+                rdfs:comment "this is a property that indicates which projects a social media manager uploads online in social medias like instagram and twitter for promotion reasons" .
+
+
+###  http://example.org/Software_Company#requiredFrom
+:requiredFrom rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              owl:inverseOf :requires ;
+              rdfs:domain :Projects ;
+              rdfs:range :Clients ;
+              rdfs:comment "This property indicates which project required from who client."@en .
+
+
+###  http://example.org/Software_Company#requires
+:requires rdf:type owl:ObjectProperty ;
+          rdfs:domain :Clients ;
+          rdfs:range :Projects ;
+          rdfs:comment "This property indicates who client wants which project."@en .
+
+
+###  http://example.org/Software_Company#runningForProject
+:runningForProject rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf owl:topObjectProperty ;
+                   owl:inverseOf :runsOn ;
+                   rdfs:domain :Server ;
+                   rdfs:range :Projects .
+
+
+###  http://example.org/Software_Company#runsOn
+:runsOn rdf:type owl:ObjectProperty ;
+        rdfs:domain :Projects ;
+        rdfs:range :Server ;
+        rdfs:comment "this property indicates in which server does a project run depending on its kind" .
+
+
+###  http://example.org/Software_Company#supervisesDeveloper
+:supervisesDeveloper rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf owl:topObjectProperty ;
+                     rdf:type owl:TransitiveProperty ;
+                     rdfs:domain :Developer ;
+                     rdfs:range :Developer ;
+                     rdfs:comment "This property indicates the connection between the developers,who supervises who."@en .
+
+
+###  http://example.org/Software_Company#testsWebsite
+:testsWebsite rdf:type owl:ObjectProperty ;
+              rdfs:domain :Tester ;
+              rdfs:range :Projects .
+
+
+###  http://example.org/Software_Company#trains
+:trains rdf:type owl:ObjectProperty ;
+        rdfs:subPropertyOf owl:topObjectProperty ;
+        rdf:type owl:TransitiveProperty ;
+        rdfs:domain :Employee ;
+        rdfs:range :Employee ;
+        rdfs:comment "This property indicates mostly the deveopers who's training the interns.Also inters can train other interns."@en .
+
+
+###  http://example.org/Software_Company#uses
+:uses rdf:type owl:ObjectProperty ;
+      owl:inverseOf :usingBy ;
+      rdf:type owl:InverseFunctionalProperty ;
+      rdfs:domain :Developer ;
+      rdfs:range :Computer .
+
+
+###  http://example.org/Software_Company#usingBy
+:usingBy rdf:type owl:ObjectProperty ;
+         rdfs:domain :Computer ;
+         rdfs:range :Developer .
+
+
+###  http://example.org/Software_Company#worksOn
+:worksOn rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         rdfs:domain :Employee .
+
+
+###  http://example.org/Software_Company#worksOnProject
+:worksOnProject rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf :worksOn ;
+                rdfs:domain :Developer ;
+                rdfs:range :Projects .
+
+
+###  http://example.org/Software_Company#worksOnServer
+:worksOnServer rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf :worksOn ;
+               rdfs:domain :Architect ;
+               rdfs:range :Server .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/Software_Company#age
+:age rdf:type owl:DatatypeProperty ;
+     rdfs:domain :Employee ;
+     rdfs:range xsd:integer .
+
+
+###  http://example.org/Software_Company#bachelor
+:bachelor rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Employee ;
+          rdfs:range xsd:string ;
+          rdfs:comment "title of bachelor degree and city in where the employee studied" .
+
+
+###  http://example.org/Software_Company#contractEnd
+:contractEnd rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Employee ;
+             rdfs:range xsd:date ;
+             rdfs:comment "the end date of a employee`s contract" .
+
+
+###  http://example.org/Software_Company#contractStart
+:contractStart rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Employee ;
+               rdfs:range xsd:date ;
+               rdfs:comment "the start date of a employee`s contract" .
+
+
+###  http://example.org/Software_Company#finishedProjects
+:finishedProjects rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Developer ;
+                  rdfs:range xsd:integer ;
+                  rdfs:comment "the number of projects that developers have finished in the company" .
+
+
+###  http://example.org/Software_Company#level
+:level rdf:type owl:DatatypeProperty ;
+       rdfs:domain :Developer ;
+       rdfs:range xsd:string .
+
+
+###  http://example.org/Software_Company#operatingSystem
+:operatingSystem rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Computer ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "the operating system of a computer. For example, windows, linux etc" .
+
+
+###  http://example.org/Software_Company#phoneNumber
+:phoneNumber rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Employee ;
+             rdfs:range xsd:integer ;
+             rdfs:comment "the phone number of an employee" .
+
+
+###  http://example.org/Software_Company#projectCost
+:projectCost rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Projects ;
+             rdfs:range xsd:integer ;
+             rdfs:comment "the cost in euros of the project" .
+
+
+###  http://example.org/Software_Company#projectEnd
+:projectEnd rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Projects ;
+            rdfs:range xsd:date ;
+            rdfs:comment "the deadline of the project" .
+
+
+###  http://example.org/Software_Company#projectStart
+:projectStart rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Projects ;
+              rdfs:range xsd:date ;
+              rdfs:comment "the beggining date of the project" .
+
+
+###  http://example.org/Software_Company#salary
+:salary rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Employee ;
+        rdfs:range xsd:integer .
+
+
+###  http://example.org/Software_Company#sex
+:sex rdf:type owl:DatatypeProperty ;
+     rdfs:domain :Employee ;
+     rdfs:range xsd:string ;
+     rdfs:comment "female or male" .
+
+
+###  http://example.org/Software_Company#worksRemote
+:worksRemote rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Employee ;
+             rdfs:range xsd:boolean .
+
+
+###  http://example.org/Software_Company#yearsOfExperience
+:yearsOfExperience rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :Employee ;
+                   rdfs:range xsd:int .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/Software_Company#Architect
+:Architect rdf:type owl:Class ;
+           rdfs:subClassOf :Employee ;
+           owl:disjointWith :GraphicDesigner ;
+           rdfs:comment "This person configures the infrastructure/hardware (server) on which the websites are running" .
+
+
+###  http://example.org/Software_Company#BackEndDeveloper
+:BackEndDeveloper rdf:type owl:Class ;
+                  rdfs:subClassOf :Developer ;
+                  rdfs:comment "his programmer writes code that controls what’s displayed on a website. The back-end developer uses programming languages like Java, .NET and PHP. These languages run on the server to create the webpage" .
+
+
+###  http://example.org/Software_Company#Blog
+:Blog rdf:type owl:Class ;
+      owl:equivalentClass [ rdf:type owl:Restriction ;
+                            owl:onProperty :runsOn ;
+                            owl:someValuesFrom :Server
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :testsWebsite ;
+                            owl:someValuesFrom :BlogTester
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :worksOnProject ;
+                            owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                            owl:onClass :Developer
+                          ] ;
+      rdfs:subClassOf :Projects .
+
+
+###  http://example.org/Software_Company#BlogTester
+:BlogTester rdf:type owl:Class ;
+            rdfs:subClassOf :Tester .
+
+
+###  http://example.org/Software_Company#BussinessWebsiteTester
+:BussinessWebsiteTester rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( :BlogTester
+                                                                   :EshopTester
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] ;
+                        rdfs:subClassOf :Tester .
+
+
+###  http://example.org/Software_Company#Bussiness_Website
+:Bussiness_Website rdf:type owl:Class ;
+                   owl:equivalentClass [ rdf:type owl:Restriction ;
+                                         owl:onProperty :runsOn ;
+                                         owl:someValuesFrom :Server
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :testsWebsite ;
+                                         owl:someValuesFrom :BussinessWebsiteTester
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :worksOnProject ;
+                                         owl:minQualifiedCardinality "3"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :Developer
+                                       ] ;
+                   rdfs:subClassOf :Projects .
+
+
+###  http://example.org/Software_Company#CEO
+:CEO rdf:type owl:Class ;
+     owl:equivalentClass [ rdf:type owl:Restriction ;
+                           owl:onProperty :CEOMeeting ;
+                           owl:someValuesFrom :CEO
+                         ] ;
+     rdfs:subClassOf :Employee ;
+     owl:disjointWith :Developer ,
+                      :RequirementAnalyst ;
+     rdfs:comment "Manages and directs the company toward its primary goals and objectives. Oversees employment decisions at the executive level of the company. Leads a team of executives to consider major decisions including acquisitions, mergers, joint ventures, or large-scale expansion." .
+
+
+###  http://example.org/Software_Company#Clients
+:Clients rdf:type owl:Class ;
+         rdfs:subClassOf :SoftwareCompany ;
+         owl:disjointWith :RequirementAnalyst .
+
+
+###  http://example.org/Software_Company#Computer
+:Computer rdf:type owl:Class ;
+          rdfs:subClassOf :Equipment ;
+          owl:disjointWith :Server .
+
+
+###  http://example.org/Software_Company#Developer
+:Developer rdf:type owl:Class ;
+           rdfs:subClassOf :Employee ;
+           owl:disjointWith :Intern .
+
+
+###  http://example.org/Software_Company#E-Shop
+:E-Shop rdf:type owl:Class ;
+        owl:equivalentClass [ rdf:type owl:Restriction ;
+                              owl:onProperty :runsOn ;
+                              owl:someValuesFrom :Server
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :testsWebsite ;
+                              owl:someValuesFrom :EshopTester
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :worksOnProject ;
+                              owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                              owl:onClass :Developer
+                            ] ;
+        rdfs:subClassOf :Projects .
+
+
+###  http://example.org/Software_Company#Employee
+:Employee rdf:type owl:Class ;
+          rdfs:subClassOf :SoftwareCompany .
+
+
+###  http://example.org/Software_Company#Equipment
+:Equipment rdf:type owl:Class ;
+           owl:equivalentClass [ rdf:type owl:Class ;
+                                 owl:unionOf ( :Computer
+                                               :Server
+                                             )
+                               ] ;
+           rdfs:subClassOf :SoftwareCompany .
+
+
+###  http://example.org/Software_Company#EshopTester
+:EshopTester rdf:type owl:Class ;
+             rdfs:subClassOf :Tester .
+
+
+###  http://example.org/Software_Company#Framework
+:Framework rdf:type owl:Class ;
+           rdfs:subClassOf :Technologies .
+
+
+###  http://example.org/Software_Company#FrontEndDeveloper
+:FrontEndDeveloper rdf:type owl:Class ;
+                   rdfs:subClassOf :Developer ;
+                   rdfs:comment "Working closely with his back-end colleague, the front-end developer takes care of the “frontend” or “client side”: once the page is shown in the browser, it still requires layout to look nice." .
+
+
+###  http://example.org/Software_Company#FullStackDeveloper
+:FullStackDeveloper rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Class ;
+                                          owl:unionOf ( :BackEndDeveloper
+                                                        :FrontEndDeveloper
+                                                      )
+                                        ] ;
+                    rdfs:subClassOf :Developer ;
+                    rdfs:comment "A Full Stack Developer is someone who works with the Back End — or server side — of the application as well as the Front End, or client side." .
+
+
+###  http://example.org/Software_Company#GraphicDesigner
+:GraphicDesigner rdf:type owl:Class ;
+                 rdfs:subClassOf :Employee ;
+                 owl:disjointWith :Tester ;
+                 rdfs:comment "The graphic designer creates a visual style for the website aligned with the corporate style guide. He also creates a visual design for each functionality as a guideline for the front-end developer, who will re-create this design by code." .
+
+
+###  http://example.org/Software_Company#Intern
+:Intern rdf:type owl:Class ;
+        rdfs:subClassOf :Employee .
+
+
+###  http://example.org/Software_Company#ProgrammingLanguageForBackEnd
+:ProgrammingLanguageForBackEnd rdf:type owl:Class ;
+                               rdfs:subClassOf :Programming_Language ;
+                               owl:disjointWith :ProgrammingLanguageForFrontEnd .
+
+
+###  http://example.org/Software_Company#ProgrammingLanguageForFrontEnd
+:ProgrammingLanguageForFrontEnd rdf:type owl:Class ;
+                                rdfs:subClassOf :Programming_Language .
+
+
+###  http://example.org/Software_Company#Programming_Language
+:Programming_Language rdf:type owl:Class ;
+                      owl:equivalentClass [ rdf:type owl:Class ;
+                                            owl:unionOf ( :ProgrammingLanguageForBackEnd
+                                                          :ProgrammingLanguageForFrontEnd
+                                                        )
+                                          ] ;
+                      rdfs:subClassOf :Technologies .
+
+
+###  http://example.org/Software_Company#ProjectManager
+:ProjectManager rdf:type owl:Class ;
+                owl:equivalentClass [ rdf:type owl:Restriction ;
+                                      owl:onProperty :projectStatus ;
+                                      owl:someValuesFrom :ProjectManager
+                                    ] ;
+                rdfs:subClassOf :Employee ;
+                rdfs:comment "The project manager provides focus for the team on their various projects, and they help to keep it moving along on schedule. They manage the budget, take care of planning, and ensure the team is staffed with the best talent." .
+
+
+###  http://example.org/Software_Company#Projects
+:Projects rdf:type owl:Class ;
+          rdfs:subClassOf :SoftwareCompany .
+
+
+###  http://example.org/Software_Company#RequirementAnalyst
+:RequirementAnalyst rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty :communicatesWithClients ;
+                                          owl:someValuesFrom :Clients
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty :communicatesWithDevelopers ;
+                                          owl:someValuesFrom :Developer
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty :communicatesWithGraphicDesigner ;
+                                          owl:someValuesFrom :GraphicDesigner
+                                        ] ;
+                    rdfs:subClassOf :Employee ;
+                    rdfs:comment "This role is designed to be a proxy between the client, design, and development. He translates the requests (requirements) made by the client into clear specifications on how a certain functionality should behave" .
+
+
+###  http://example.org/Software_Company#Server
+:Server rdf:type owl:Class ;
+        owl:equivalentClass [ rdf:type owl:Restriction ;
+                              owl:onProperty :worksOnServer ;
+                              owl:someValuesFrom :Architect
+                            ] ;
+        rdfs:subClassOf :Equipment .
+
+
+###  http://example.org/Software_Company#SocialMediaManager
+:SocialMediaManager rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty :promotesOnline ;
+                                          owl:someValuesFrom :Projects
+                                        ] ;
+                    rdfs:subClassOf :Employee ;
+                    owl:disjointWith :Tester ;
+                    rdfs:comment "their role is analyzing engagement data, identifying trends in customer interactions and planning digital campaigns to build community online." .
+
+
+###  http://example.org/Software_Company#SoftwareCompany
+:SoftwareCompany rdf:type owl:Class .
+
+
+###  http://example.org/Software_Company#Technologies
+:Technologies rdf:type owl:Class ;
+              owl:equivalentClass [ rdf:type owl:Class ;
+                                    owl:unionOf ( :Framework
+                                                  :Programming_Language
+                                                )
+                                  ] ;
+              rdfs:subClassOf :SoftwareCompany .
+
+
+###  http://example.org/Software_Company#Tester
+:Tester rdf:type owl:Class ;
+        rdfs:subClassOf :Employee ;
+        rdfs:comment "This person tests every functionality that the team has made in every possible condition before the website becomes available to regular users. When something is not in order, he reports a bug to the developers."@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/Software_Company#Ainstain_Blog
+:Ainstain_Blog rdf:type owl:NamedIndividual ,
+                        :Blog ;
+               :gettingPaidFrom :Mixalis_Papadopoulos ;
+               :runsOn :Server_Blog ;
+               :projectCost 10000 ;
+               :projectEnd "2022-11-30"^^xsd:date ;
+               :projectStart "2022-11-30"^^xsd:date .
+
+
+###  http://example.org/Software_Company#Alice_Nastoulh
+:Alice_Nastoulh rdf:type owl:NamedIndividual ,
+                         :Intern ;
+                :trains :Elene_Karastogiani ;
+                :age 18 ;
+                :bachelor "no" ;
+                :contractEnd "2023-01-01"^^xsd:date ;
+                :contractStart "2022-12-01"^^xsd:date ;
+                :phoneNumber 6987788744 ;
+                :salary 400 ;
+                :sex "female" ;
+                :worksRemote "false"^^xsd:boolean ;
+                :yearsOfExperience "0"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Alison_Beker
+:Alison_Beker rdf:type owl:NamedIndividual ,
+                       :CEO ;
+              :CEOMeeting :Thomas_Dohmke ;
+              :gettingPaidFrom :Ainstain_Blog ;
+              :hired :Alice_Nastoulh ,
+                     :Anna_Del_Rey ,
+                     :Antonio_Banderas ,
+                     :Chris_Apostolopoulos ,
+                     :Chris_Karastergios ,
+                     :Cristiano_Ronaldo ,
+                     :Dimitra_Papadopoulou ,
+                     :Elene_Karastogiani ,
+                     :George_Mathaus ,
+                     :Leo_Messi ,
+                     :Neymar_Jr ;
+              :age 48 ;
+              :bachelor "Computer Science,Thessaloniki" ;
+              :contractEnd "2025-01-10"^^xsd:date ;
+              :contractStart "2020-01-10"^^xsd:date ;
+              :phoneNumber 6936677398 ;
+              :salary 3500 ;
+              :sex "female" ;
+              :worksRemote "false"^^xsd:boolean ;
+              :yearsOfExperience "20"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Angular
+:Angular rdf:type owl:NamedIndividual ,
+                  :Framework .
+
+
+###  http://example.org/Software_Company#Anna_Del_Rey
+:Anna_Del_Rey rdf:type owl:NamedIndividual ,
+                       :Architect ;
+              :worksOnServer :Server_Bussiness_Website ;
+              :age 24 ;
+              :bachelor "Computer Science,Athens" ;
+              :contractEnd "2022-11-30"^^xsd:date ;
+              :contractStart "2020-11-30"^^xsd:date ;
+              :phoneNumber 695625625 ;
+              :salary 3000 ;
+              :sex "female" ;
+              :worksRemote "false"^^xsd:boolean ;
+              :yearsOfExperience "3"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Antonio_Banderas
+:Antonio_Banderas rdf:type owl:NamedIndividual ,
+                           :SocialMediaManager ;
+                  :promotesOnline :Ainstain_Blog ,
+                                  :Dienasty ,
+                                  :Tesla ;
+                  :age 25 ;
+                  :bachelor "no" ;
+                  :contractEnd "2023-11-10"^^xsd:date ;
+                  :contractStart "2022-11-10"^^xsd:date ;
+                  :phoneNumber 6942533755 ;
+                  :salary 1500 ;
+                  :sex "male" ;
+                  :worksRemote "true"^^xsd:boolean ;
+                  :yearsOfExperience "1"^^xsd:int .
+
+
+###  http://example.org/Software_Company#CSS
+:CSS rdf:type owl:NamedIndividual ,
+              :ProgrammingLanguageForFrontEnd .
+
+
+###  http://example.org/Software_Company#Chris_Apostolopoulos
+:Chris_Apostolopoulos rdf:type owl:NamedIndividual ,
+                               :EshopTester ;
+                      :testsWebsite :Console-Club ,
+                                    :Dienasty ;
+                      :age 29 ;
+                      :bachelor "no" ;
+                      :contractEnd "2022-11-25"^^xsd:date ;
+                      :contractStart "2022-11-25"^^xsd:date ;
+                      :phoneNumber 6923451877 ;
+                      :salary 1200 ;
+                      :sex "male" ;
+                      :worksRemote "true"^^xsd:boolean ;
+                      :yearsOfExperience "3"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Chris_Karastergios
+:Chris_Karastergios rdf:type owl:NamedIndividual ,
+                             :BussinessWebsiteTester ;
+                    :testsWebsite :Tesla ;
+                    :age 30 ;
+                    :bachelor "no" ;
+                    :contractEnd "2022-11-25"^^xsd:date ;
+                    :contractStart "2022-11-25"^^xsd:date ;
+                    :phoneNumber 6947787644 ;
+                    :salary 1000 ;
+                    :sex "male" ;
+                    :worksRemote "true"^^xsd:boolean ;
+                    :yearsOfExperience "2"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Computer_1
+:Computer_1 rdf:type owl:NamedIndividual ,
+                     :Computer ;
+            :operatingSystem "MAC" .
+
+
+###  http://example.org/Software_Company#Computer_2
+:Computer_2 rdf:type owl:NamedIndividual ,
+                     :Computer ;
+            :operatingSystem "Windows 11" .
+
+
+###  http://example.org/Software_Company#Computer_3
+:Computer_3 rdf:type owl:NamedIndividual ,
+                     :Computer ;
+            :operatingSystem "Ubuntu, linux" .
+
+
+###  http://example.org/Software_Company#Computer_4
+:Computer_4 rdf:type owl:NamedIndividual ,
+                     :Computer ;
+            :operatingSystem "Ubuntu, linux" .
+
+
+###  http://example.org/Software_Company#Computer_5
+:Computer_5 rdf:type owl:NamedIndividual ,
+                     :Computer ;
+            :operatingSystem "Windows XP" .
+
+
+###  http://example.org/Software_Company#Computer_6
+:Computer_6 rdf:type owl:NamedIndividual ,
+                     :Computer ;
+            :operatingSystem "Windows 7" .
+
+
+###  http://example.org/Software_Company#Console-Club
+:Console-Club rdf:type owl:NamedIndividual ,
+                       :E-Shop ;
+              :runsOn :Server_E-Shop ;
+              :projectCost 20000 ;
+              :projectEnd "2022-11-30"^^xsd:date ;
+              :projectStart "2022-11-30"^^xsd:date .
+
+
+###  http://example.org/Software_Company#Cristiano_Ronaldo
+:Cristiano_Ronaldo rdf:type owl:NamedIndividual ,
+                            :FrontEndDeveloper ;
+                   :cooperateWith :Virgil_Van_Djik ;
+                   :developerHasKnowledgeIn_PL :CSS ,
+                                               :HTML ;
+                   :uses :Computer_4 ;
+                   :worksOnProject :Ainstain_Blog ;
+                   :age 24 ;
+                   :bachelor "Computer Science, Lisabon" ;
+                   :contractEnd "2022-11-30"^^xsd:date ;
+                   :contractStart "2021-11-30"^^xsd:date ;
+                   :finishedProjects 0 ;
+                   :level "junior" ;
+                   :worksRemote "true"^^xsd:boolean ;
+                   :yearsOfExperience "3"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Dienasty
+:Dienasty rdf:type owl:NamedIndividual ,
+                   :E-Shop ;
+          :runsOn :Server_E-Shop ;
+          :projectCost 30000 ;
+          :projectEnd "2022-11-30"^^xsd:date ;
+          :projectStart "2022-11-30"^^xsd:date .
+
+
+###  http://example.org/Software_Company#Dimitra_Papadopoulou
+:Dimitra_Papadopoulou rdf:type owl:NamedIndividual ,
+                               :RequirementAnalyst ;
+                      :communicatesWithClients :Konna_Vasou ,
+                                               :Manolis_Sfakakis ;
+                      :communicatesWithDevelopers :GIannis_Antetokoumbo ;
+                      :communicatesWithGraphicDesigner :Neymar_Jr ;
+                      :age 26 ;
+                      :bachelor "Computer Science,Athens" ;
+                      :contractEnd "2022-11-25"^^xsd:date ;
+                      :contractStart "2020-11-25"^^xsd:date ;
+                      :phoneNumber 6932344588 ;
+                      :salary 1700 ;
+                      :sex "Female" ;
+                      :worksRemote "false"^^xsd:boolean ;
+                      :yearsOfExperience "2"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Django
+:Django rdf:type owl:NamedIndividual ,
+                 :Framework .
+
+
+###  http://example.org/Software_Company#Elene_Karastogiani
+:Elene_Karastogiani rdf:type owl:NamedIndividual ,
+                             :Intern ;
+                    :age 23 ;
+                    :bachelor "Computer Science,Athens" ;
+                    :contractEnd "2023-01-01"^^xsd:date ;
+                    :contractStart "2022-12-01"^^xsd:date ;
+                    :phoneNumber 6943355716 ;
+                    :salary 400 ;
+                    :sex "female" ;
+                    :worksRemote "false"^^xsd:boolean ;
+                    :yearsOfExperience "1"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Flask
+:Flask rdf:type owl:NamedIndividual ,
+                :Framework .
+
+
+###  http://example.org/Software_Company#GIannis_Antetokoumbo
+:GIannis_Antetokoumbo rdf:type owl:NamedIndividual ,
+                               :BackEndDeveloper ;
+                      :developerHasKnowledgeIn_FW :Django ,
+                                                  :Flask ;
+                      :developerHasKnowledgeIn_PL :PHP ,
+                                                  :Python ;
+                      :worksOnProject :Console-Club ,
+                                      :Ster_Blog ,
+                                      :Tesla ;
+                      :age 28 ;
+                      :bachelor "Computer Science,Moscow" ;
+                      :contractEnd "2022-11-25"^^xsd:date ;
+                      :contractStart "2022-11-25"^^xsd:date ;
+                      :finishedProjects 0 ;
+                      :level "Mid" ;
+                      :phoneNumber 6843322844 ;
+                      :salary 2000 ;
+                      :sex "male" ;
+                      :worksRemote "true"^^xsd:boolean ;
+                      :yearsOfExperience "5"^^xsd:int .
+
+
+###  http://example.org/Software_Company#George_Mathaus
+:George_Mathaus rdf:type owl:NamedIndividual ,
+                         :BackEndDeveloper ;
+                :developerHasKnowledgeIn_FW :Django ,
+                                            :Flask ;
+                :developerHasKnowledgeIn_PL :PHP ,
+                                            :Python ;
+                :uses :Computer_1 ;
+                :worksOnProject :Console-Club ;
+                :age 23 ;
+                :bachelor "Computer Science,Manila" ;
+                :contractEnd "2024-01-10"^^xsd:date ;
+                :contractStart "2022-01-10"^^xsd:date ;
+                :finishedProjects 9 ;
+                :level "Mid" ;
+                :phoneNumber 6942533752 ;
+                :salary 2000 ;
+                :sex "male" ;
+                :worksRemote "false"^^xsd:boolean ;
+                :yearsOfExperience "4"^^xsd:int .
+
+
+###  http://example.org/Software_Company#HTML
+:HTML rdf:type owl:NamedIndividual ,
+               :ProgrammingLanguageForFrontEnd .
+
+
+###  http://example.org/Software_Company#Javascript
+:Javascript rdf:type owl:NamedIndividual ,
+                     :ProgrammingLanguageForFrontEnd .
+
+
+###  http://example.org/Software_Company#John_Kratos
+:John_Kratos rdf:type owl:NamedIndividual ,
+                      :ProjectManager ;
+             :projectStatus :Leo_Messi ;
+             :age "30"^^xsd:int ;
+             :bachelor "Computer Science"^^xsd:string ;
+             :phoneNumber "69435676784"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Konna_Vasou
+:Konna_Vasou rdf:type owl:NamedIndividual ,
+                      :Clients ;
+             :requires :Dienasty .
+
+
+###  http://example.org/Software_Company#Kostas_Petrakis
+:Kostas_Petrakis rdf:type owl:NamedIndividual ,
+                          :FullStackDeveloper ;
+                 :developerHasKnowledgeIn_FW :Django ,
+                                             :Flask ,
+                                             :Vue.js ;
+                 :developerHasKnowledgeIn_PL :CSS ,
+                                             :HTML ,
+                                             :Javascript ,
+                                             :PHP ,
+                                             :SQL ;
+                 :supervisesDeveloper :George_Mathaus ,
+                                      :Stergios_Moumtzis ,
+                                      :Virgil_Van_Djik ;
+                 :worksOnProject :Ster_Blog ,
+                                 :Tesla ;
+                 :age 26 ;
+                 :bachelor "Computer Science,Roma" ;
+                 :contractEnd "2022-11-30"^^xsd:date ;
+                 :contractStart "2022-11-30"^^xsd:date ;
+                 :finishedProjects 3 ;
+                 :level "Mid" ;
+                 :phoneNumber 6943366747 ;
+                 :salary 2000 ;
+                 :sex "male" ;
+                 :worksRemote "true"^^xsd:boolean ;
+                 :yearsOfExperience "5"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Leo_Messi
+:Leo_Messi rdf:type owl:NamedIndividual ,
+                    :ProjectManager ;
+           :projectStatus :Peter_Brown ;
+           :age 32 ;
+           :bachelor "Computer Science,Athens" ;
+           :contractEnd "2022-11-30"^^xsd:date ;
+           :contractStart "2018-11-30"^^xsd:date ;
+           :phoneNumber 695825125 ;
+           :salary 3000 ;
+           :sex "male" ;
+           :worksRemote "false"^^xsd:boolean ;
+           :yearsOfExperience "15"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Lisa_Rippon
+:Lisa_Rippon rdf:type owl:NamedIndividual ,
+                      :Architect ;
+             :worksOnServer :Server_E-Shop ;
+             :age 30 ;
+             :bachelor "Computer Science,Mexico City" ;
+             :contractEnd "2023-09-10"^^xsd:date ;
+             :contractStart "2022-09-10"^^xsd:date ;
+             :phoneNumber 6942533751 ;
+             :salary 1900 ;
+             :sex "female" ;
+             :worksRemote "false"^^xsd:boolean ;
+             :yearsOfExperience "8"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Manolis_Sfakakis
+:Manolis_Sfakakis rdf:type owl:NamedIndividual ,
+                           :Clients ;
+                  :requires :Console-Club ,
+                            :Ster_Blog .
+
+
+###  http://example.org/Software_Company#Mia_Goth
+:Mia_Goth rdf:type owl:NamedIndividual ,
+                   :Architect ;
+          :worksOnServer :Server_Blog ;
+          :age 24 ;
+          :bachelor "Computer Science,Mexico City" ;
+          :contractEnd "2023-03-23"^^xsd:date ;
+          :contractStart "2022-03-23"^^xsd:date ;
+          :phoneNumber 6945566735 ;
+          :salary 1900 ;
+          :sex "female" ;
+          :worksRemote "false"^^xsd:boolean ;
+          :yearsOfExperience "3"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Mixalis_Papadopoulos
+:Mixalis_Papadopoulos rdf:type owl:NamedIndividual ,
+                               :Clients ;
+                      :requires :Ainstain_Blog .
+
+
+###  http://example.org/Software_Company#Morgan_Freeman
+:Morgan_Freeman rdf:type owl:NamedIndividual ,
+                         :BlogTester ;
+                :testsWebsite :Console-Club ;
+                :age 40 ;
+                :bachelor "no" ;
+                :contractEnd "2023-11-04"^^xsd:date ;
+                :contractStart "2022-06-04"^^xsd:date ;
+                :phoneNumber 6942533712 ;
+                :salary 1200 ;
+                :sex "male" ;
+                :worksRemote "true"^^xsd:boolean ;
+                :yearsOfExperience "1"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Neymar_Jr
+:Neymar_Jr rdf:type owl:NamedIndividual ,
+                    :GraphicDesigner ;
+           :age 30 ;
+           :bachelor "Computer Science, Rio De Janeiro" ;
+           :contractEnd "2023-11-30"^^xsd:date ;
+           :contractStart "2020-11-30"^^xsd:date ;
+           :phoneNumber 695626363 ;
+           :salary 3000 ;
+           :sex "male" ;
+           :worksRemote "true"^^xsd:boolean ;
+           :yearsOfExperience "4"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Node.js
+:Node.js rdf:type owl:NamedIndividual ,
+                  :Framework .
+
+
+###  http://example.org/Software_Company#PHP
+:PHP rdf:type owl:NamedIndividual ,
+              :ProgrammingLanguageForBackEnd .
+
+
+###  http://example.org/Software_Company#Peter_Brown
+:Peter_Brown rdf:type owl:NamedIndividual ,
+                      :ProjectManager ;
+             :age 45 ;
+             :bachelor "Computer Science,Istanbul" ;
+             :contractEnd "2022-12-24"^^xsd:date ;
+             :contractStart "2022-08-24"^^xsd:date ;
+             :phoneNumber 6942533750 ;
+             :salary 2500 ;
+             :sex "male" ;
+             :worksRemote "false"^^xsd:boolean ;
+             :yearsOfExperience "12"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Python
+:Python rdf:type owl:NamedIndividual ,
+                 :ProgrammingLanguageForBackEnd .
+
+
+###  http://example.org/Software_Company#React.js
+:React.js rdf:type owl:NamedIndividual ,
+                   :Framework .
+
+
+###  http://example.org/Software_Company#SQL
+:SQL rdf:type owl:NamedIndividual ,
+              :ProgrammingLanguageForBackEnd .
+
+
+###  http://example.org/Software_Company#Server_Blog
+:Server_Blog rdf:type owl:NamedIndividual ,
+                      :Server .
+
+
+###  http://example.org/Software_Company#Server_Bussiness_Website
+:Server_Bussiness_Website rdf:type owl:NamedIndividual ,
+                                   :Server .
+
+
+###  http://example.org/Software_Company#Server_E-Shop
+:Server_E-Shop rdf:type owl:NamedIndividual ,
+                        :Server .
+
+
+###  http://example.org/Software_Company#Ster_Blog
+:Ster_Blog rdf:type owl:NamedIndividual ,
+                    :Blog ;
+           :gettingPaidFrom :Manolis_Sfakakis ;
+           :runsOn :Server_Blog ;
+           :projectCost 10000 ;
+           :projectEnd "2022-11-25"^^xsd:date ;
+           :projectStart "2022-11-25"^^xsd:date .
+
+
+###  http://example.org/Software_Company#Stergios_Moumtzis
+:Stergios_Moumtzis rdf:type owl:NamedIndividual ,
+                            :FrontEndDeveloper ;
+                   :cooperateWith :Kostas_Petrakis ;
+                   :developerHasKnowledgeIn_FW :Flask ;
+                   :developerHasKnowledgeIn_PL :CSS ,
+                                               :HTML ,
+                                               :PHP ,
+                                               :Python ,
+                                               :SQL ;
+                   :uses :Computer_3 ;
+                   :worksOnProject :Dienasty ,
+                                   :Ster_Blog ;
+                   :age 24 ;
+                   :bachelor "Computer Science, Barcelona" ;
+                   :contractEnd "2023-04-12"^^xsd:date ;
+                   :contractStart "2022-06-12"^^xsd:date ;
+                   :finishedProjects 10 ;
+                   :level "Senior" ;
+                   :phoneNumber 6942533189 ;
+                   :salary 1700 ;
+                   :sex "male" ;
+                   :worksRemote "true"^^xsd:boolean ;
+                   :yearsOfExperience "3"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Steven_Jobs
+:Steven_Jobs rdf:type owl:NamedIndividual ,
+                      :RequirementAnalyst ;
+             :communicatesWithClients :Mixalis_Papadopoulos ,
+                                      :Tupac_Shakur ;
+             :communicatesWithDevelopers :George_Mathaus ;
+             :communicatesWithGraphicDesigner :Tim_Robbins ;
+             :age 24 ;
+             :bachelor "Computer Science,Amsterdam" ;
+             :contractEnd "2022-12-01"^^xsd:date ;
+             :contractStart "2022-05-10"^^xsd:date ;
+             :phoneNumber 6942533777 ;
+             :salary 1700 ;
+             :sex "male" ;
+             :worksRemote "false"^^xsd:boolean ;
+             :yearsOfExperience "3"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Tesla
+:Tesla rdf:type owl:NamedIndividual ,
+                :Bussiness_Website ;
+       :runsOn :Server_Bussiness_Website ;
+       :projectCost 1000000 ;
+       :projectEnd "2022-11-30"^^xsd:date .
+
+
+###  http://example.org/Software_Company#Thomas_Dohmke
+:Thomas_Dohmke rdf:type owl:NamedIndividual ,
+                        :CEO ;
+               :gettingPaidFrom :Ster_Blog ;
+               :hired :GIannis_Antetokoumbo ,
+                      :Kostas_Petrakis ,
+                      :Lisa_Rippon ,
+                      :Mia_Goth ,
+                      :Morgan_Freeman ,
+                      :Peter_Brown ,
+                      :Stergios_Moumtzis ,
+                      :Steven_Jobs ,
+                      :Thomas_Fysekis ,
+                      :Tim_Robbins ,
+                      :Virgil_Van_Djik ;
+               :age 40 ;
+               :bachelor "Computer Science,Cape Town" ;
+               :contractEnd "2024-06-10"^^xsd:date ;
+               :contractStart "2022-01-10"^^xsd:date ;
+               :phoneNumber 6934533755 ;
+               :salary 3000 ;
+               :sex "male" ;
+               :worksRemote "false"^^xsd:boolean ;
+               :yearsOfExperience "10"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Thomas_Fysekis
+:Thomas_Fysekis rdf:type owl:NamedIndividual ,
+                         :FullStackDeveloper ;
+                :cooperateWith :Kostas_Petrakis ;
+                :developerHasKnowledgeIn_FW :Vue.js ;
+                :developerHasKnowledgeIn_PL :CSS ,
+                                            :HTML ,
+                                            :Javascript ;
+                :supervisesDeveloper :Kostas_Petrakis ;
+                :trains :Alice_Nastoulh ;
+                :uses :Computer_2 ;
+                :worksOnProject :Dienasty ,
+                                :Tesla ;
+                :age 23 ;
+                :bachelor "Computer Science,London" ;
+                :contractEnd "2024-01-10"^^xsd:date ;
+                :contractStart "2022-01-01"^^xsd:date ;
+                :finishedProjects 8 ;
+                :level "Senior" ;
+                :phoneNumber 6942133755 ;
+                :salary 2000 ;
+                :sex "male" ;
+                :worksRemote "false"^^xsd:boolean ;
+                :yearsOfExperience "5"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Tim_Robbins
+:Tim_Robbins rdf:type owl:NamedIndividual ,
+                      :GraphicDesigner ;
+             :age 36 ;
+             :bachelor "Computer Science,Tokyo" ;
+             :contractEnd "2024-01-10"^^xsd:date ;
+             :contractStart "2022-01-10"^^xsd:date ;
+             :phoneNumber 6992533755 ;
+             :salary 1500 ;
+             :sex "male" ;
+             :worksRemote "true"^^xsd:boolean ;
+             :yearsOfExperience "2"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Tupac_Shakur
+:Tupac_Shakur rdf:type owl:NamedIndividual ,
+                       :Clients ;
+              :requires :Tesla .
+
+
+###  http://example.org/Software_Company#Virgil_Van_Djik
+:Virgil_Van_Djik rdf:type owl:NamedIndividual ,
+                          :FrontEndDeveloper ;
+                 :developerHasKnowledgeIn_FW :Angular ,
+                                             :Node.js ,
+                                             :React.js ;
+                 :developerHasKnowledgeIn_PL :CSS ,
+                                             :HTML ,
+                                             :Javascript ,
+                                             :Python ;
+                 :uses :Computer_6 ;
+                 :worksOnProject :Ainstain_Blog ;
+                 :age 30 ;
+                 :bachelor "Computer Science,Thessaloniki" ;
+                 :contractEnd "2022-11-30"^^xsd:date ;
+                 :contractStart "2022-11-30"^^xsd:date ;
+                 :finishedProjects 2 ;
+                 :level "Senior" ;
+                 :phoneNumber 6945566789 ;
+                 :salary 2000 ;
+                 :sex "male" ;
+                 :worksRemote "false"^^xsd:boolean ;
+                 :yearsOfExperience "5"^^xsd:int .
+
+
+###  http://example.org/Software_Company#Vue.js
+:Vue.js rdf:type owl:NamedIndividual ,
+                 :Framework .
+
+
+###  http://example.org/Software_Company#jQuery
+:jQuery rdf:type owl:NamedIndividual ,
+                 :Framework .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
